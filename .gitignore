@@ -1,0 +1,22 @@
+# Variables privadas
+.env
+.env.*
+
+# Dependencias
+vendor/
+node_modules/
+
+# Configuración del editor
+.vscode/
+.idea/
+
+# Archivos temporales
+*.log
+*.tmp
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Configuración privada de base de datos
+config/conexion.php
