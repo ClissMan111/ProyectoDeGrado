@@ -34,6 +34,11 @@ class Medico extends Model
         return $this->hasMany(Cita::class);
     }
 
+    public function indisponibilidades()
+    {
+        return $this->hasMany(IndisponibilidadMedico::class);
+    }
+
     public function getNombreCompletoAttribute(): string
     {
         return $this->nombres.' '.$this->apellidos;

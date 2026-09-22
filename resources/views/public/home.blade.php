@@ -14,7 +14,7 @@
                 <a class="text-link" href="{{ route('how-it-works') }}">Conocer el proceso <span>→</span></a>
             </div>
             <div class="hero-assurance">
-                <span class="avatar-stack"><i>VI</i><i>+</i><i>24</i></span>
+                <span class="assurance-seal"><x-icon name="check-circle"/></span>
                 <p><strong>Información segura</strong><br>Acceso personal y protegido</p>
             </div>
         </div>
@@ -26,7 +26,7 @@
             </div>
             <form method="get" action="{{ route('booking') }}" class="quick-search">
             <label>Especialidad<select name="especialidad_id" required><option value="">Elige un área de atención</option>@foreach($especialidades as $e)<option value="{{ $e->id }}">{{ $e->nombre }}</option>@endforeach</select></label>
-            <label>Fecha preferida<input type="date" name="fecha" required min="{{ today()->format('Y-m-d') }}" max="{{ today()->addDays(config('citas.horizonte_dias'))->format('Y-m-d') }}" value="{{ today()->format('Y-m-d') }}"></label>
+            <label>Fecha preferida<input type="date" name="fecha" required min="{{ today()->format('Y-m-d') }}" value="{{ today()->format('Y-m-d') }}"></label>
             <button class="button button-dark button-wide">Consultar disponibilidad →</button>
             </form>
             <p class="privacy-note"><svg viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0110 0v3M6 10h12v10H6z"/></svg> Tus datos se utilizan únicamente para gestionar tu atención.</p>
@@ -68,7 +68,7 @@
 
 <section class="section center-section" id="centro">
     <div class="container center-grid">
-        <div class="center-visual"><div class="visual-cross">+</div><span class="visual-label">Centro de Salud<br><strong>Villa Israel</strong></span><div class="visual-card"><small>HOY</small><strong>Atención continua</strong><span>07:30 — 18:00</span></div></div>
+        <div class="home-clinic-model"><x-clinic-model compact/></div>
         <div class="center-copy"><span class="section-tag">CUIDADO DE BARRIO</span><h2>Un centro cercano, ahora también digital.</h2><p>Organizamos la atención para que pacientes, médicos y personal del centro compartan información clara y actualizada.</p><ul class="check-list"><li><i>✓</i> Consulta tus próximas citas en cualquier momento</li><li><i>✓</i> Reprograma o cancela desde tu cuenta</li><li><i>✓</i> Accede desde celular, tableta o computadora</li></ul><a class="text-link dark" href="{{ route('about') }}">Conoce el Centro de Salud <span>→</span></a></div>
     </div>
 </section>

@@ -1,0 +1,81 @@
+/* Comfortable backgrounds and a legible scale shared by every screen. */
+:root { --page-bg:#dce6ed; --surface:#f3f6f8; --surface-raised:#f8fafb; --line:#c5d4df; --muted:#496275; --cloud:#e6eef3; --sky:#dcecf4; }
+body.public-body { background:var(--page-bg); font-size:16px; }
+.vi-workspace { --vi-bg:#dce6ed; --vi-line:#c5d4df; --line:#c5d4df; --muted:#496275; --vi-muted:#496275; --cloud:#e6eef3; --sky:#dcecf4; background:var(--vi-bg); font-size:15px; --vi-width:280px; }
+.public-body .section:not(.process-section), .specialties-section, .catalog-section, .faq-section, .guide-section, .location-section { background:var(--page-bg); }
+.public-body .section-tag { font-size:13px; letter-spacing:1.5px; }
+.specialty-card,.catalog-card,.contact-form,.contact-cards article,.accordion-item,.auth-card,.register-card,.booking-card { background:var(--surface-raised); border-color:#bfd1de; }
+.specialty-card.featured { background:var(--navy); }
+.vi-workspace .vi-card,.vi-workspace .surface,.vi-workspace .vi-stat:not(.vi-stat-featured),.vi-patient-numbers>a { background:var(--surface); border-color:#c4d5e1; box-shadow:0 3px 5px #173b5410,0 14px 32px #173b5409; }
+.vi-workspace .vi-stat-featured { background-color:var(--navy); }
+.vi-doctor-brief,.vi-focus-card,.vi-network-card { background:#cce1eb; border-color:#abcad9; }
+.vi-new-visit { background:#c7e9e3; border-color:#97ccc4; }
+.vi-agenda-tabs,.vi-card-link,.vi-card-bottom { background:#e7eff4; border-color:#cbdde7; }
+.vi-topbar,.site-header { background:#eaf0f5f5; border-color:#c4d5e1; }
+.vi-search-trigger { background:#dfeaf1; border-color:#c2d5e2; font-size:14px; }
+.vi-breadcrumb,.vi-breadcrumb strong,.vi-topbar-date { font-size:14px; }
+.vi-profile-dropdown { background:#f3f7fa; }
+.vi-workspace .vi-content { padding-inline:32px; }
+.vi-nav-link,.vi-book-link { font-size:16px; min-height:47px; }
+.vi-nav-link { padding-inline:12px; gap:12px; }
+.vi-nav-heading { font-size:11px; letter-spacing:1.1px; margin-top:21px; }
+.vi-brand-text strong { font-size:21px; }.vi-brand-text small { font-size:10px; letter-spacing:1.6px; }
+.vi-workspace-label { font-size:14px; }.vi-account-link strong { font-size:14px; max-width:151px; }.vi-account-link small { font-size:12px; }.vi-location { font-size:12px; }
+.vi-icon-button { width:40px; height:40px; }
+.vi-page-heading p,.vi-workspace .dashboard-heading p { font-size:15px; line-height:1.75; }
+.vi-card-heading h2,.vi-workspace .surface h2 { font-size:20px; }
+.vi-card-heading .vi-eyebrow,.vi-eyebrow { font-size:12px; letter-spacing:1.1px; }
+.vi-agenda-person>strong,.vi-team-member strong,.vi-history-item strong { font-size:15px; }
+.vi-agenda-person>small,.vi-agenda-time small,.vi-card-bottom,.vi-note p,.vi-history-item small,.vi-team-member>div small,.vi-activity p,.vi-activity small { font-size:13px; }
+.vi-agenda-time { width:44px; }.vi-agenda-time strong { font-size:15px; }
+.vi-agenda .status-badge,.vi-workspace .status-badge { font-size:12px; }
+.vi-agenda-tabs { gap:17px; padding-inline:20px; }.vi-agenda-tabs>a { font-size:14px; gap:6px; }.vi-agenda-tabs>a>span { min-width:19px; height:20px; font-size:12px; }
+.vi-calendar-toolbar>strong { font-size:16px; }.vi-today { font-size:13px; min-height:32px; }.vi-calendar-toolbar .vi-icon-button { width:32px; height:32px; }
+.vi-day>span { font-size:13px; }.vi-day>strong { font-size:22px; }
+.vi-stat>div { font-size:14px; }.vi-stat footer { font-size:13px; }.vi-stat>strong { font-size:42px; }
+.vi-small-link,.vi-card-link { font-size:14px; }.vi-card-bottom>a { font-size:13px; }
+.vi-check-item { font-size:14px; }.vi-check-intro,.vi-local-note { font-size:13px; }
+.vi-visit-details strong,.vi-visit-main p { font-size:14px; }.vi-visit-details small,.vi-visit-topline,.vi-calendar-download { font-size:12px; }
+.vi-visit-topline { letter-spacing:1px; }.vi-visit-empty p { font-size:15px; }.vi-visit-day>span { font-size:12px; }
+.vi-doctor-brief-main p,.vi-doctor-guide p { font-size:14px; }.vi-focus-card p,.vi-guide-rule { font-size:13px; }.vi-focus-time>span { font-size:13px; }
+.vi-workspace .surface label,.vi-workspace .surface input:not([type=checkbox]),.vi-workspace .surface select,.vi-workspace .surface textarea { font-size:15px; }
+.vi-workspace .data-table td,.vi-workspace .data-table td strong { font-size:14px; }.vi-workspace .data-table th,.vi-workspace .data-table td small { font-size:13px; }
+.vi-workspace .data-table th { background:#dae7ef; }.vi-workspace .surface input:not([type=checkbox]),.vi-workspace .surface select,.vi-workspace .surface textarea { background:#e7eef3; }
+.vi-workspace .button,.vi-button,.button { font-size:15px; }
+.vi-command-results a { font-size:16px; }.vi-command-head input { font-size:16px; }.vi-profile-dropdown a,.vi-profile-dropdown button { font-size:15px; }
+.vi-page-footer { color:#4c6b80; font-size:12px; }.vi-page-heading,.vi-workspace .dashboard-heading { border-color:#b9cddc; }
+.header-inner { width:min(1360px,calc(100% - 56px)); position:relative; gap:25px; }
+.main-nav { font-size:16px; gap:22px; }.main-nav>a:nth-child(3),.main-nav>a:nth-child(4) { display:block; }
+.main-nav .nav-login { padding-left:18px; }.main-nav .button { font-size:15px; }
+.brand strong { font-size:20px; }.brand small { font-size:11px; }
+.utility-inner { font-size:12px; }
+.public-body p,.public-body .form-hint { line-height:1.8; }
+.quick-search label,.auth-card label,.register-card label { font-size:15px; }.quick-search input,.quick-search select,.auth-card input:not([type=checkbox]),.register-card input:not([type=checkbox]) { font-size:16px; }
+.specialty-card p,.catalog-card p,.process-list p,.contact-cards p,.accordion-content p { font-size:16px; }
+.hero { background-image:linear-gradient(90deg,#082f55f2 0%,#082f55e8 38%,#082f55a8 100%),url('/images/clinic/hospital-reference.jpg'); background-position:center; background-size:cover; }
+.hero .booking-card { background:#edf3f7; }.hero .booking-card:hover { box-shadow:0 30px 70px #001a3655; }
+.auth-card,.register-card { background:#edf3f7; }.vi-workspace .vi-quiet-empty,.vi-workspace .vi-empty p { color:#4d6b80; font-size:14px; }
+.site-footer p,.footer-grid>div>a:not(.button) { font-size:15px; }.footer-grid { gap:32px; }.footer-bottom { font-size:13px; }
+.ui-back-top { background:#d7e6ef; border-color:#b0c7d8; }
+@media(min-width:821px) { .vi-workspace.sidebar-compact { --vi-width:82px; } }
+@media(max-width:1250px) { .vi-workspace { --vi-width:260px; }.vi-nav-link,.vi-book-link { font-size:16px; }.vi-workspace .vi-content { padding-inline:23px; }.vi-agenda-tabs { gap:14px; }.vi-agenda-tabs>a { font-size:13px; }.vi-stat { padding:18px; } }
+@media(max-width:1190px) {
+ .header-inner { height:78px; }.nav-toggle { display:grid; gap:5px; padding:12px; flex-shrink:0; }.nav-toggle span:not(.sr-only) { width:25px; height:2px; background:var(--navy); }
+ .main-nav { position:absolute; left:0; right:0; top:100%; display:none; padding:18px; flex-direction:column; align-items:stretch; gap:3px; background:#eaf1f6; border:1px solid #bdcfdd; border-radius:0 0 18px 18px; box-shadow:0 20px 35px #082f5526; max-height:calc(100dvh - 100px); overflow-y:auto; }
+ .main-nav.open { display:flex; }.main-nav>a:not(.button) { padding:12px; border:0; font-size:16px; }.main-nav>a.active { background:#cee4f0; border-radius:8px; }.main-nav>a::after { display:none; }.main-nav .nav-login { padding-left:12px; }
+ .nav-toggle[aria-expanded=true] span:nth-child(1) { transform:translateY(7px) rotate(45deg); }.nav-toggle[aria-expanded=true] span:nth-child(2) { opacity:0; }.nav-toggle[aria-expanded=true] span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+}
+@media(max-width:1080px) { .vi-stat>div { font-size:13px; }.vi-stat footer { font-size:12px; }.vi-patient-side { gap:15px; }.vi-doctor-progress { min-width:125px; } }
+@media(max-width:820px) { .vi-sidebar { width:280px; }.vi-nav-link,.vi-book-link { font-size:16px; }.vi-topbar .vi-breadcrumb strong { font-size:14px; max-width:200px; }.vi-topbar .vi-search-trigger { background:transparent; }.vi-workspace .vi-content { padding-inline:20px; }.vi-topbar { padding-inline:14px; } }
+@media(max-width:560px) {
+ .header-inner { width:calc(100% - 32px); }.utility-inner { font-size:11px; }.brand small { font-size:10px; }.brand strong { font-size:19px; }
+ .vi-workspace .vi-content { padding-inline:14px; }.vi-topbar-start,.vi-topbar-actions { gap:5px; }.vi-topbar .vi-breadcrumb strong { max-width:155px; font-size:13px; }.vi-breadcrumb { gap:5px; }.vi-page-heading p { font-size:14px; }
+ .vi-card-heading h2,.vi-workspace .surface h2 { font-size:18px; }.vi-card-heading .vi-eyebrow { font-size:11px; }
+ .vi-stat { padding:16px; }.vi-stat>div { font-size:13px; }.vi-stat>strong { font-size:35px; }.vi-stat footer { font-size:12px; }
+ .vi-agenda-tabs { padding-inline:15px; gap:17px; }.vi-agenda-tabs>a { font-size:13px; }.vi-agenda-item { grid-template-columns:43px 2px minmax(0,1fr); }.vi-agenda-person>strong { font-size:14px; }.vi-agenda-person>small { font-size:12px; }.vi-day>span { font-size:12px; }.vi-day>strong { font-size:19px; }
+ .vi-card-bottom,.vi-card-bottom>a { font-size:12px; }.vi-visit-topline { font-size:10px; }.vi-visit-main h2 { font-size:25px; }.vi-visit-details strong { font-size:13px; }.vi-visit-details small { font-size:12px; }.vi-calendar-download { font-size:12px; }.vi-doctor-brief-main p { font-size:13px; }
+ .vi-patient-numbers span { font-size:13px; }.vi-page-footer { font-size:12px; }.vi-heading-date { display:none; }.vi-visit-code { white-space:nowrap; }
+ .vi-workspace .button,.vi-button { font-size:14px; }.vi-doctor-progress>small { font-size:12px; }.vi-doctor-bottom>div { font-size:12px; }
+ .hero-lead,.auth-message>p,.register-layout aside>p { font-size:16px; }.hero .booking-card { padding:23px; }.privacy-note { font-size:12px; }
+ .footer-grid { gap:28px; }.footer-bottom { font-size:12px; }.auth-benefits>span { font-size:12px; }
+}

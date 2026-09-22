@@ -10,7 +10,14 @@ class HistorialCita extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = ['fecha_anterior' => 'date', 'fecha_nueva' => 'date'];
+
     public const UPDATED_AT = null;
+
+    public function cita()
+    {
+        return $this->belongsTo(Cita::class);
+    }
 
     public function usuario()
     {

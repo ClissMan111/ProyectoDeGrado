@@ -2,7 +2,7 @@
 @section('title','Crear cuenta | Villa Israel')
 @section('content')
 <section class="register-page"><div class="container register-layout">
-<aside><span class="section-tag light">NUEVA CUENTA</span><h1>Tu atención, en tus manos.</h1><p>Regístrate una sola vez para reservar y gestionar tus citas.</p><ol><li class="active"><span>1</span><div><strong>Datos personales</strong><small>Tu información básica</small></div></li><li><span>2</span><div><strong>Acceso personal</strong><small>Tu correo y contraseña</small></div></li></ol><div class="register-safe">✓ Una cuenta para todas tus citas.</div></aside>
+<aside><span class="section-tag light">NUEVA CUENTA</span><h1>Tu atención, en tus manos.</h1><p>Regístrate una sola vez para reservar y gestionar tus citas.</p><ol><li class="active"><span>1</span><div><strong>Datos personales</strong><small>Tu información básica</small></div></li><li><span>2</span><div><strong>Acceso personal</strong><small>Tu correo y contraseña</small></div></li></ol><div class="register-safe">✓ Una cuenta para todas tus citas.</div><x-care-photo image="orientacion-medica" class="register-photo" alt="Atención y orientación durante una consulta"/></aside>
 <form class="register-card" action="{{ route('register.submit') }}" method="post">@csrf
 <div class="form-title"><span>01</span><div><small>COMENCEMOS</small><h2>Crea tu cuenta de paciente</h2></div></div>
 @include('partials.feedback')

@@ -39,7 +39,7 @@ class CitaWorkflowTest extends TestCase
         $this->specialty = Especialidad::create(['nombre' => 'General', 'estado' => true]);
         $this->medico = Medico::create(['usuario_id' => $this->doctor->id, 'ci' => 'M-01', 'nombres' => 'Ana', 'apellidos' => 'Médica', 'estado' => true]);
         $this->medico->especialidades()->attach($this->specialty);
-        Horario::create(['medico_id' => $this->medico->id, 'dia_semana' => 5, 'hora_inicio' => '08:00:00', 'hora_fin' => '12:00:00', 'duracion_cita' => 30, 'estado' => true]);
+        Horario::create(['medico_id' => $this->medico->id, 'dia_semana' => 'Viernes', 'hora_inicio' => '08:00:00', 'hora_fin' => '12:00:00', 'duracion_cita' => 30, 'estado' => true]);
     }
 
     private function patient(string $ci): User
@@ -63,7 +63,7 @@ class CitaWorkflowTest extends TestCase
     public function test_registration_creates_only_a_patient_even_when_role_is_forged(): void
     {
         $this->post('/registro', ['nombres' => 'Nueva', 'apellidos' => 'Persona', 'ci' => 'NEW-1', 'email' => 'new@example.test', 'password' => 'Segura1234', 'password_confirmation' => 'Segura1234', 'consentimiento' => 1, 'rol' => 'administrador'])->assertRedirect('/ingresar')->assertSessionHasNoErrors();
-        $user = User::where('email', 'new@example.test')->firstOrFail();
+        $user = User::where('correo', 'new@example.test')->firstOrFail();
         $this->assertSame('paciente', $user->rol);
         $this->assertNotNull($user->paciente);
         $this->post('/ingresar', ['email' => $user->email, 'password' => 'Segura1234'])->assertRedirect('/panel/paciente');
@@ -184,9 +184,9 @@ class CitaWorkflowTest extends TestCase
 
     public function test_admin_schedules_validate_overlaps_and_duration(): void
     {
-        $this->actingAs($this->admin)->post('/administracion/horarios', ['medico_id' => $this->medico->id, 'dia_semana' => 5, 'hora_inicio' => '09:00', 'hora_fin' => '13:00', 'duracion_cita' => 30, 'estado' => 1])->assertSessionHasErrors('hora_inicio');
-        $this->post('/administracion/horarios', ['medico_id' => $this->medico->id, 'dia_semana' => 5, 'hora_inicio' => '14:00', 'hora_fin' => '15:10', 'duracion_cita' => 30, 'estado' => 1])->assertSessionHasErrors('duracion_cita');
-        $this->post('/administracion/horarios', ['medico_id' => $this->medico->id, 'dia_semana' => 5, 'hora_inicio' => '14:00', 'hora_fin' => '16:00', 'duracion_cita' => 30, 'estado' => 1])->assertSessionHasNoErrors();
+        $this->actingAs($this->admin)->post('/administracion/horarios', ['medico_id' => $this->medico->id, 'dia_semana' => 'Viernes', 'hora_inicio' => '09:00', 'hora_fin' => '13:00', 'duracion_cita' => 30, 'estado' => 1])->assertSessionHasErrors('hora_inicio');
+        $this->post('/administracion/horarios', ['medico_id' => $this->medico->id, 'dia_semana' => 'Viernes', 'hora_inicio' => '14:00', 'hora_fin' => '15:10', 'duracion_cita' => 30, 'estado' => 1])->assertSessionHasErrors('duracion_cita');
+        $this->post('/administracion/horarios', ['medico_id' => $this->medico->id, 'dia_semana' => 'Viernes', 'hora_inicio' => '14:00', 'hora_fin' => '16:00', 'duracion_cita' => 30, 'estado' => 1])->assertSessionHasNoErrors();
         $this->assertDatabaseCount('horarios', 2);
     }
 

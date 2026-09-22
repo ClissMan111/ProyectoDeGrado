@@ -14,11 +14,39 @@ class CitaController extends Controller
 {
     public function dashboard(Request $request)
     {
+        $data = $request->validate(['fecha' => 'nullable|date_format:Y-m-d', 'estado' => ['nullable', Rule::in(array_keys(Cita::ESTADOS))]]);
+        $date = \Carbon\Carbon::parse($data['fecha'] ?? today()->toDateString())->startOfDay();
         $query = Cita::visible($request->user());
-        $metrics = collect(Cita::ESTADOS)->map(fn ($label, $state) => (clone $query)->whereDate('fecha', today())->where('estado', $state)->count());
-        $next = (clone $query)->with(['paciente', 'medico', 'especialidad'])->whereIn('estado', ['pendiente', 'confirmada'])->where(fn ($q) => $q->whereDate('fecha', '>', today())->orWhere(fn ($q) => $q->whereDate('fecha', today())->where('hora_fin', '>', now()->format('H:i:s'))))->orderBy('fecha')->orderBy('hora_inicio')->limit(6)->get();
+        $daily = (clone $query)->whereDate('fecha', $date);
+        $totals = (clone $daily)->selectRaw('estado, COUNT(*) as total')->groupBy('estado')->pluck('total', 'estado');
+        $metrics = collect(Cita::ESTADOS)->map(fn ($label, $state) => (int) ($totals[$state] ?? 0));
+        $agenda = (clone $daily)->with(['paciente', 'medico', 'especialidad'])
+            ->when(! empty($data['estado']), fn ($q) => $q->where('estado', $data['estado']))
+            ->orderBy('hora_inicio')->limit(8)->get();
+        $upcoming = (clone $query)->whereIn('estado', ['pendiente', 'confirmada'])
+            ->where(fn ($q) => $q->whereDate('fecha', '>', today())->orWhere(fn ($q) => $q->whereDate('fecha', today())->where('hora_fin', '>', now()->format('H:i:s'))));
+        $next = (clone $upcoming)->with(['paciente', 'medico', 'especialidad'])->orderBy('fecha')->orderBy('hora_inicio')->limit(4)->get();
+        $weekStart = $date->copy()->startOfWeek();
+        $weekCounts = (clone $query)->whereBetween('fecha', [$weekStart->toDateString(), $weekStart->copy()->addDays(6)->endOfDay()])
+            ->selectRaw('DATE(fecha) as dia, COUNT(*) as total')->groupByRaw('DATE(fecha)')->pluck('total', 'dia');
+        $week = collect(range(0, 6))->map(function ($offset) use ($weekStart, $weekCounts) {
+            $day = $weekStart->copy()->addDays($offset);
 
-        return view('dashboard', compact('metrics', 'next'));
+            return ['date' => $day, 'count' => (int) ($weekCounts[$day->toDateString()] ?? 0)];
+        });
+        $summary = ['upcoming' => (clone $upcoming)->count(), 'attended' => (clone $query)->where('estado', 'atendida')->count()];
+        $recent = (clone $query)->with(['medico', 'especialidad'])->whereIn('estado', ['atendida', 'cancelada', 'no_asistio'])->orderByDesc('fecha')->limit(3)->get();
+        $team = collect();
+        $activity = collect();
+        if ($request->user()->rol === 'administrador') {
+            $team = Medico::where('estado', true)->whereHas('usuario', fn ($q) => $q->where('estado', true))->with('especialidades')
+                ->withCount(['citas' => fn ($q) => $q->whereDate('fecha', $date)])->orderBy('apellidos')->limit(4)->get();
+            $summary['patients'] = Paciente::count();
+            $summary['doctors'] = Medico::where('estado', true)->whereHas('usuario', fn ($q) => $q->where('estado', true))->count();
+            $activity = \App\Models\HistorialCita::with(['cita.paciente', 'cita.especialidad'])->latest('id')->limit(4)->get();
+        }
+
+        return view('dashboard', compact('metrics', 'next', 'date', 'agenda', 'week', 'summary', 'team', 'activity', 'recent'));
     }
 
     public function index(Request $request)
@@ -26,7 +54,7 @@ class CitaController extends Controller
         if ($request->user()->rol === 'medico' && ! $request->has('fecha')) {
             $request->merge(['fecha' => today()->format('Y-m-d')]);
         }
-        $request->validate(['fecha' => 'nullable|date_format:Y-m-d', 'estado' => ['nullable', Rule::in(array_keys(Cita::ESTADOS))], 'medico_id' => 'nullable|integer', 'q' => 'nullable|string|max:100']);
+        $request->validate(['fecha' => 'nullable|date_format:Y-m-d', 'estado' => ['nullable', Rule::in(array_keys(Cita::ESTADOS))], 'medico_id' => 'nullable|integer', 'especialidad_id' => 'nullable|integer|exists:especialidades,id', 'paciente_id' => 'nullable|integer|exists:pacientes,id', 'q' => 'nullable|string|max:100']);
         $query = Cita::visible($request->user())->with(['paciente', 'medico', 'especialidad']);
         if ($request->filled('fecha')) {
             $query->whereDate('fecha', $request->fecha);
@@ -37,12 +65,17 @@ class CitaController extends Controller
         if ($request->filled('medico_id')) {
             $query->where('medico_id', $request->medico_id);
         }
+        foreach (['especialidad_id', 'paciente_id'] as $field) {
+            if ($request->filled($field)) {
+                $query->where($field, $request->input($field));
+            }
+        }
         if ($request->filled('q')) {
             $query->whereHas('paciente', fn ($q) => $q->where(fn ($q) => $q->where('nombres', 'like', '%'.$request->q.'%')->orWhere('apellidos', 'like', '%'.$request->q.'%')->orWhere('ci', 'like', '%'.$request->q.'%')));
         }
         $citas = $query->orderByDesc('fecha')->orderBy('hora_inicio')->paginate(15)->withQueryString();
 
-        return view('citas.index', ['citas' => $citas, 'medicos' => Medico::orderBy('apellidos')->get()]);
+        return view('citas.index', ['citas' => $citas, 'medicos' => Medico::orderBy('apellidos')->get(), 'especialidades' => Especialidad::orderBy('nombre')->get()]);
     }
 
     public function create(Request $request, ?Cita $cita = null)
@@ -68,7 +101,7 @@ class CitaController extends Controller
         }
         $medicos = Medico::where('estado', true)->whereHas('especialidades', fn ($q) => $q->where('especialidades.id', $data['especialidad_id'])->where('estado', true))->when(isset($cita), fn ($q) => $q->whereKey($cita->medico_id))->with('usuario')->get();
 
-        return response()->json(['medicos' => $medicos->map(fn ($m) => ['id' => $m->id, 'nombre' => $m->nombre_completo, 'horarios' => $service->slots($m, (int) $data['especialidad_id'], $data['fecha'], $except)])]);
+        return response()->json(['medicos' => $medicos->map(fn ($m) => ['id' => $m->id, 'nombre' => $m->nombre_completo, 'horarios' => $service->slots($m, (int) $data['especialidad_id'], $data['fecha'], $except)])->filter(fn ($m) => count($m['horarios']) > 0)->values()]);
     }
 
     public function store(Request $request, CitaService $service, ?Cita $cita = null)
@@ -78,7 +111,7 @@ class CitaController extends Controller
         $data = $request->validate(['especialidad_id' => 'required|integer|exists:especialidades,id', 'medico_id' => 'required|integer|exists:medicos,id', 'paciente_id' => ($request->user()->rol === 'administrador' ? 'required' : 'nullable').'|integer|exists:pacientes,id', 'fecha' => 'required|date_format:Y-m-d', 'hora_inicio' => 'required|date_format:H:i']);
         $saved = $service->reserve($request->user(), $data, $cita);
 
-        return redirect()->route('citas.show', $saved)->with('success', $cita ? 'Cita reprogramada. Espera la confirmación del centro.' : 'Reserva registrada. El centro confirmará tu cita.');
+        return redirect()->route('citas.show', $saved)->with('success', $cita ? 'Cita reprogramada. Se conserva su estado actual.' : 'Reserva registrada. El centro confirmará tu cita.');
     }
 
     public function show(Request $request, Cita $cita)

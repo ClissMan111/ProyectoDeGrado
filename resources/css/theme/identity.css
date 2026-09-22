@@ -1,0 +1,31 @@
+/* Villa Israel: a shared emblem and an editorial photography system. */
+.brand .brand-emblem,.vi-brand .brand-emblem { display:block; width:55px; height:55px; flex:0 0 55px; background:none; box-shadow:none; border-radius:0; transform:none; }
+.brand-emblem img { width:100%; height:100%; display:block; object-fit:contain; transition:transform .3s var(--ease-care); }
+.brand:hover .brand-emblem,.vi-brand:hover .brand-emblem { box-shadow:none; transform:none; }.brand:hover .brand-emblem img,.vi-brand:hover .brand-emblem img { transform:translateY(-2px); }
+.brand { gap:11px; }.brand strong { font:800 23px/1.16 var(--font-display); letter-spacing:-.9px; }.brand small { color:#386981; letter-spacing:2.4px; font-size:10px; font-weight:700; margin-top:6px; }
+.brand-light small { color:#8dcabe; }.brand-light strong { color:#eef8fb; }.vi-brand-text strong { font:800 22px/1.16 var(--font-display); letter-spacing:-.9px; }.vi-brand-text small { font-size:9px; letter-spacing:2.1px; margin-top:6px; color:#a4d7d0; }
+.vi-brand .brand-emblem { width:48px; height:48px; flex-basis:48px; }.vi-brand-row { padding-inline:4px; }
+.care-photo { position:relative; margin:0; overflow:hidden; border-radius:24px 24px 24px 7px; background:#bcd0da; isolation:isolate; }
+.care-photo>img { display:block; width:100%; height:100%; object-fit:cover; filter:saturate(.7); transition:transform .7s var(--ease-care),filter .7s; }
+.care-photo:hover>img { transform:scale(1.035); filter:saturate(.9); }
+.photo-hero { padding:65px 0; }.photo-hero .page-hero-grid { grid-template-columns:1.15fr .85fr; align-items:center; gap:65px; }.photo-hero h1 { font-size:clamp(38px,4.6vw,65px); line-height:1.08; }
+.hero-media { position:relative; min-width:0; padding:0 0 18px 18px; }.hero-media::before { content:''; position:absolute; inset:24px 18px 0 0; border:1px solid #55c9bc70; border-radius:26px 26px 26px 8px; }
+.hero-media .care-photo { height:320px; box-shadow:0 22px 45px #00162c40; border:5px solid #b0d9dc2b; }.hero-media .care-photo>img { object-position:center 40%; }
+.hero-media .page-hero-index { position:absolute; bottom:35px; left:34px; min-height:0; padding:12px 18px; border:1px solid #a6d7d738; border-radius:13px; background:#082f55ed; flex-direction:row; gap:13px; align-items:center; }
+.hero-media .page-hero-index span { font-size:30px; }.hero-media .page-hero-index small { margin:0; font-size:12px; color:#e0edf0; max-width:110px; }
+.faq-photo { height:340px; margin-bottom:30px; border:5px solid #c3d8df; }.faq-photo>img { object-position:center 57%; }.faq-layout aside h2 { font-size:29px; line-height:1.2; }
+.auth-photo { height:220px; margin-top:29px; max-width:470px; border:1px solid #9bc8d850; }.auth-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(0deg,#082f5540,transparent 65%); pointer-events:none; }.auth-photo>img { object-position:center 40%; }
+.auth-grid { padding-block:55px; }.auth-signature { margin-top:25px; }.register-photo { height:225px; margin-top:26px; border:1px solid #9bc8d850; }.register-photo>img { object-position:center 30%; }
+.reservation-photo { height:190px; margin:0 0 25px; border-radius:15px; border:1px solid #a8cbd540; }.reservation-photo>img { object-position:center 40%; }
+.vi-card-photo { height:148px; border-radius:15px 15px 6px 6px; margin-bottom:23px; }.vi-card-photo>img { object-position:center 44%; }
+.vi-checklist>.vi-card-photo { margin:0 0 3px; border-radius:17px 17px 0 0; height:155px; }.vi-orientation>.vi-card-photo { margin:0 0 24px; }
+.vi-community-card { position:relative; overflow:hidden; background:#103f60; border:1px solid #6d9aaf; border-radius:19px; min-height:240px; display:flex; flex-direction:column; justify-content:flex-end; }
+.vi-community-card>.care-photo { position:absolute; inset:0; border-radius:0; }.vi-community-card::after { content:''; position:absolute; inset:0; background:linear-gradient(0deg,#082f55fa, #082f55cc 25%,#082f5500 75%); }
+.vi-community-card>a { position:relative; z-index:1; display:block; padding:24px; color:#fff; }.vi-community-card small { display:block; color:#91eadc; font-size:10px; letter-spacing:1.6px; font-weight:700; }.vi-community-card strong { display:block; font:750 23px/1.25 var(--font-display); margin:9px 0; }.vi-community-card span { display:flex; align-items:center; gap:12px; color:#d2e8ee; font-size:13px; }
+.institution-photo>img { object-position:center; }.contact-visit-photo img { object-position:center 35%; }
+@media(min-width:821px) { .sidebar-compact .vi-brand-row { padding-inline:0; justify-content:center; }.sidebar-compact .vi-brand .brand-emblem { width:43px; height:43px; flex-basis:43px; }.sidebar-compact .vi-brand { justify-content:center; } }
+@media(max-width:1250px) { .vi-brand-text strong { font-size:21px; }.vi-brand .brand-emblem { width:44px; height:44px; flex-basis:44px; }.vi-brand-text small { letter-spacing:1.6px; } }
+@media(max-width:1080px) { .photo-hero .page-hero-grid { gap:35px; }.hero-media .care-photo { height:300px; }.auth-grid { gap:50px; }.vi-community-card { min-height:250px; } }
+@media(max-width:820px) { .photo-hero .page-hero-grid { grid-template-columns:1fr; gap:30px; }.hero-media { max-width:600px; width:100%; }.hero-media .care-photo { height:280px; }.hero-media .page-hero-index { display:flex!important; }.faq-photo { height:280px; max-width:540px; }.auth-photo { height:180px; max-width:100%; }.register-photo { height:190px; max-width:540px; }.auth-grid { padding-block:40px; } }
+@media(max-width:560px) { .brand .brand-emblem { width:46px; height:46px; flex-basis:46px; }.brand strong { font-size:21px; }.brand small { font-size:9px; letter-spacing:2px; }.brand { gap:8px; }.photo-hero { padding:46px 0; }.photo-hero h1 { font-size:38px; }.hero-media .care-photo { height:235px; }.hero-media .page-hero-index { bottom:29px; left:29px; padding:10px 14px; }.hero-media .page-hero-index span { font-size:25px; }.hero-media .page-hero-index small { font-size:11px; }.faq-photo { height:260px; }.register-photo { height:170px; }.reservation-photo { height:170px; } }
+@media(prefers-reduced-motion:reduce) { .brand-emblem img,.care-photo>img { transition:none; }.care-photo:hover>img,.brand:hover .brand-emblem img,.vi-brand:hover .brand-emblem img { transform:none; } }

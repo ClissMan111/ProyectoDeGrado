@@ -13,6 +13,29 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'usuarios';
+
+    // Keep Laravel-facing attributes compatible with the documented SQL names.
+    public function getNameAttribute(): ?string
+    {
+        return $this->attributes['nombre'] ?? null;
+    }
+
+    public function setNameAttribute(string $value): void
+    {
+        $this->attributes['nombre'] = $value;
+    }
+
+    public function getEmailAttribute(): ?string
+    {
+        return $this->attributes['correo'] ?? null;
+    }
+
+    public function setEmailAttribute(string $value): void
+    {
+        $this->attributes['correo'] = $value;
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,6 +44,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'nombre',
+        'correo',
         'password',
         'rol',
         'estado',

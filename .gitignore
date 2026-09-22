@@ -20,3 +20,6 @@ Thumbs.db
 
 # Configuración privada de base de datos
 config/conexion.php
+# Cachés locales de herramientas
+.npm-cache/
+.phpunit.result.cache

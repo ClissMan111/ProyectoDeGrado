@@ -1,8 +1,8 @@
 <?php
 
 return [
-    // Valores iniciales ajustables al validar la operación con el centro.
-    'anticipacion_minutos' => (int) env('CITAS_ANTICIPACION_MINUTOS', 0),
-    'cambios_minutos' => (int) env('CITAS_CAMBIOS_MINUTOS', 0),
-    'horizonte_dias' => (int) env('CITAS_HORIZONTE_DIAS', 60),
+    // CU08 y CU10: una hora exacta de anticipación mínima.
+    'anticipacion_minutos' => 60,
+    // CU09 y CU10: se permiten cambios hasta antes del inicio.
+    'cambios_minutos' => 0,
 ];

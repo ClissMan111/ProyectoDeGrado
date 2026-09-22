@@ -32,16 +32,17 @@ Route::middleware(['auth', ActiveRole::class])->group(function () {
     Route::get('/disponibilidad', [CitaController::class, 'availability'])->middleware(ActiveRole::class.':paciente,administrador')->name('availability');
     Route::get('/citas', [CitaController::class, 'index'])->name('citas.index');
     Route::post('/citas', [CitaController::class, 'store'])->middleware('throttle:20,1')->name('citas.store');
+    Route::get('/citas/{cita}/calendario', \App\Http\Controllers\CitaCalendarController::class)->name('citas.calendar');
     Route::get('/citas/{cita}', [CitaController::class, 'show'])->name('citas.show');
     Route::get('/citas/{cita}/reprogramar', [CitaController::class, 'create'])->name('citas.reschedule');
     Route::put('/citas/{cita}/reprogramar', [CitaController::class, 'store'])->name('citas.reschedule.save');
     Route::patch('/citas/{cita}/estado', [CitaController::class, 'state'])->name('citas.state');
     Route::prefix('administracion')->middleware(ActiveRole::class.':administrador')->group(function () {
         Route::get('/reportes', [ReportController::class, 'index'])->name('reports');
-        Route::get('/{resource}', [AdminController::class, 'index'])->whereIn('resource', ['pacientes', 'medicos', 'especialidades', 'horarios'])->name('admin.index');
-        Route::get('/{resource}/crear', [AdminController::class, 'edit'])->whereIn('resource', ['medicos', 'especialidades', 'horarios'])->name('admin.create');
-        Route::post('/{resource}', [AdminController::class, 'save'])->whereIn('resource', ['medicos', 'especialidades', 'horarios'])->name('admin.store');
-        Route::get('/{resource}/{id}/editar', [AdminController::class, 'edit'])->whereIn('resource', ['pacientes', 'medicos', 'especialidades', 'horarios'])->whereNumber('id')->name('admin.edit');
-        Route::put('/{resource}/{id}', [AdminController::class, 'save'])->whereIn('resource', ['pacientes', 'medicos', 'especialidades', 'horarios'])->whereNumber('id')->name('admin.update');
+        Route::get('/{resource}', [AdminController::class, 'index'])->whereIn('resource', ['pacientes', 'medicos', 'especialidades', 'horarios', 'indisponibilidades'])->name('admin.index');
+        Route::get('/{resource}/crear', [AdminController::class, 'edit'])->whereIn('resource', ['medicos', 'especialidades', 'horarios', 'indisponibilidades'])->name('admin.create');
+        Route::post('/{resource}', [AdminController::class, 'save'])->whereIn('resource', ['medicos', 'especialidades', 'horarios', 'indisponibilidades'])->name('admin.store');
+        Route::get('/{resource}/{id}/editar', [AdminController::class, 'edit'])->whereIn('resource', ['pacientes', 'medicos', 'especialidades', 'horarios', 'indisponibilidades'])->whereNumber('id')->name('admin.edit');
+        Route::put('/{resource}/{id}', [AdminController::class, 'save'])->whereIn('resource', ['pacientes', 'medicos', 'especialidades', 'horarios', 'indisponibilidades'])->whereNumber('id')->name('admin.update');
     });
 });

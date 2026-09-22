@@ -1,7 +1,7 @@
 @extends('layouts.public')
 @section('title', 'Cómo reservar | Villa Israel')
 @section('content')
-<section class="page-hero compact"><div class="container page-hero-grid"><div><span class="section-tag light">GUÍA DE RESERVA</span><h1>Tu cita, paso a paso.</h1><p>Desde la búsqueda hasta el día de tu atención, siempre sabrás qué sigue.</p></div><div class="page-hero-index"><span>03</span><small>pasos sencillos</small></div></div></section>
+<section class="page-hero compact photo-hero"><div class="container page-hero-grid"><div><span class="section-tag light">GUÍA DE RESERVA</span><h1>Tu cita, paso a paso.</h1><p>Desde la búsqueda hasta el día de tu atención, siempre sabrás qué sigue.</p></div><div class="hero-media"><x-care-photo image="agenda-medica" class="" alt="Organización de una consulta con dispositivos digitales" eager/><div class="page-hero-index"><span>03</span><small>pasos sencillos</small></div></div></div></section>
 <section class="section guide-section"><div class="container guide-layout">
     <aside class="guide-aside"><span>ANTES DE EMPEZAR</span><h2>Solo necesitas tus datos personales y un correo.</h2><p>Crear tu cuenta permite proteger tus citas y consultarlas desde cualquier dispositivo.</p><a class="button button-dark" href="{{ route('register') }}">Crear mi cuenta</a></aside>
     <div class="guide-steps">

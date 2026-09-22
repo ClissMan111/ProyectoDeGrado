@@ -32,7 +32,7 @@ Artisan::command('villa:demo', function () {
         }
         foreach (['administrador' => 'Administración Demo', 'medico' => 'Daniel Rojas Demo', 'paciente' => 'María Fernández Demo'] as $role => $name) {
             $email = $role.'@villaisrael.test';
-            $user = \App\Models\User::firstOrCreate(['email' => $email], ['name' => $name, 'rol' => $role, 'estado' => true, 'password' => \Illuminate\Support\Facades\Hash::make($password)]);
+            $user = \App\Models\User::firstOrCreate(['correo' => $email], ['name' => $name, 'rol' => $role, 'estado' => true, 'password' => \Illuminate\Support\Facades\Hash::make($password)]);
             if ($user->wasRecentlyCreated) {
                 $this->line($email.' | '.$password);
             } else {
@@ -45,7 +45,7 @@ Artisan::command('villa:demo', function () {
                 $medico = \App\Models\Medico::firstOrCreate(['usuario_id' => $user->id], ['ci' => 'DEMO-M-01', 'nombres' => 'Daniel', 'apellidos' => 'Rojas Demo', 'estado' => true]);
                 $medico->especialidades()->syncWithoutDetaching([$specialties[0]->id, $specialties[2]->id]);
                 foreach (range(1, 5) as $day) {
-                    \App\Models\Horario::firstOrCreate(['medico_id' => $medico->id, 'dia_semana' => $day, 'hora_inicio' => '08:00:00'], ['hora_fin' => '12:00:00', 'duracion_cita' => 30, 'estado' => true]);
+                    \App\Models\Horario::firstOrCreate(['medico_id' => $medico->id, 'dia_semana' => \App\Models\Horario::DIAS[$day], 'hora_inicio' => '08:00:00'], ['hora_fin' => '12:00:00', 'duracion_cita' => 30, 'estado' => true]);
                 }
             }
         }

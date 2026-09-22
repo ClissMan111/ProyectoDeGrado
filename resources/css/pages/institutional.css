@@ -1,0 +1,74 @@
+.contact-email { grid-column:1/-1; }
+.contact-map-card { grid-column:1/-1; min-width:0; overflow:hidden; background:#eaf2f6; border:1px solid #b5cddb; border-radius:18px; box-shadow:0 8px 24px #183e5908; }
+.contact-map-heading { display:flex; align-items:center; gap:16px; padding:23px 25px; }
+.contact-map-heading small { font-size:11px; letter-spacing:1px; font-weight:700; color:#527990; }
+.contact-map-heading h3 { margin:6px 0 0; font:750 21px/1.3 var(--font-display); letter-spacing:-.5px; }
+.contact-map-frame { display:block; width:100%; height:320px; border:0; background:#cadbe5; }
+.contact-map-link { display:flex; justify-content:space-between; align-items:center; padding:18px 24px; color:#135d86; font-size:14px; font-weight:650; border-top:1px solid #b5cddb; }
+.contact-map-link:hover { background:#d6e8ef; color:#087b75; }.contact-map-link .vi-icon { width:18px; }
+/* Institutional pages and the interactive introduction on the home page. */
+.institution-hero { position:relative; overflow:hidden; padding:80px 0; color:#fff; background-color:var(--navy); background-size:cover; background-position:center; border-bottom:4px solid var(--aqua); }
+.about-photo { background-image:linear-gradient(90deg,#061f39ee,#082f55d9 50%,#082f5580),url('/images/clinic/hospital-reference.jpg'); }
+.contact-photo { background-image:linear-gradient(90deg,#061f39f0,#082f55d4 60%,#082f5590),url('/images/clinic/hospital-reference.jpg'); background-position:center 48%; padding-block:68px; }
+.institution-hero .container { position:relative; }
+.institution-hero h1 { max-width:870px; font:800 clamp(36px,4.5vw,65px)/1.12 var(--font-display); letter-spacing:-2px; margin:20px 0; }
+.institution-hero h1 em { font-style:normal; color:#56d6c7; }
+.institution-hero p { font-size:18px; color:#d0e0e9; max-width:650px; margin-bottom:24px; }
+.institution-location { display:flex; align-items:center; gap:10px; color:#b7d6e5; font-size:15px; }
+.institution-location .vi-icon { color:var(--aqua); width:19px; }
+
+.institution-example { display:flex; gap:12px; align-items:flex-start; margin:0 0 50px; padding:16px 20px; background:#cfdee8; border:1px solid #b6cddb; border-radius:12px; color:#385d77; font-size:14px; }
+.institution-example .vi-icon { flex-shrink:0; width:20px; margin-top:2px; }
+.institution-story { display:grid; grid-template-columns:1fr 1fr; gap:65px; align-items:center; }
+.institution-story h2,.clinic-showcase h2,.contact-directory>div>h2 { font:800 clamp(30px,3.2vw,47px)/1.16 var(--font-display); color:var(--navy); letter-spacing:-1.5px; margin:12px 0 23px; }
+.institution-story p,.clinic-showcase p { color:#436379; font-size:16px; }
+.institution-story .institution-lead,.institution-lead { font-size:18px; line-height:1.8; color:#2f536c; }
+.institution-story .text-link { font-size:15px; margin-top:15px; }
+.institution-photo { position:relative; height:480px; border-radius:25px 25px 25px 7px; overflow:hidden; border:8px solid #edf3f6; box-shadow:0 18px 45px #244d681a; }
+.institution-photo > img { width:100%; height:100%; object-fit:cover; object-position:60% center; filter:saturate(.75); transition:transform .8s var(--ease-care); }
+.institution-photo:hover > img { transform:scale(1.04); }
+.institution-photo>div { position:absolute; left:20px; right:20px; bottom:20px; display:flex; gap:16px; align-items:center; border-radius:15px; padding:20px; background:#082f55ed; color:#bbd8e7; font-size:14px; }
+.institution-photo>div>.vi-icon { width:32px; height:32px; color:var(--aqua); }.institution-photo strong { display:block; color:#fff; font:700 22px var(--font-display); margin-top:4px; }
+.institution-purpose { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:55px; }
+.institution-purpose article { background:#edf3f6; border:1px solid #b8cfdc; border-radius:19px; padding:33px; position:relative; overflow:hidden; box-shadow:0 8px 25px #082f5506; }
+.purpose-icon { display:grid; place-items:center; height:48px; width:48px; border-radius:14px 14px 14px 4px; background:#c8e8e4; border:1px solid #a5d3ce; color:#0b7a79; margin-bottom:26px; }
+.institution-purpose h2 { font:750 25px/1.35 var(--font-display); letter-spacing:-.7px; margin:12px 0; }.institution-purpose p { color:#45677c; font-size:16px; margin-bottom:0; }
+.institution-values.section { background:#c7d9e5; border-block:1px solid #b3cad9; }
+.institution-values .section-heading { margin-bottom:35px; }.institution-values .section-heading h2 { font-size:38px; }
+.institution-values-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:25px; }
+.institution-values-grid article { padding:28px; border-radius:17px; border:1px solid #a8c4d4; transition:background-color .25s,transform .25s; background:#d5e3ec; }
+.institution-values-grid article:hover { background:#e4eef3; transform:translateY(-5px); }.institution-values-grid .vi-icon { color:#2178a0; width:28px; height:28px; }
+.institution-values-grid h3 { font:750 23px var(--font-display); margin:22px 0 12px; }.institution-values-grid p { font-size:16px; color:#43667e; margin:0; }
+.clinic-showcase { display:grid; grid-template-columns:.85fr 1.15fr; align-items:center; gap:65px; }
+.clinic-showcase .button { margin-top:15px; }.clinic-showcase .form-hint { font-size:14px; }
+.home-clinic-model { min-width:0; }.center-grid { grid-template-columns:1fr 1fr; gap:60px; }.home-clinic-model .model-stage { height:335px; }
+.institution-banner { background:#103f60; color:white; padding:55px 0; border-top:1px solid #3b627a; }
+.institution-banner .container { display:flex; align-items:center; justify-content:space-between; gap:30px; }.institution-banner h2 { font:750 31px/1.25 var(--font-display); max-width:670px; letter-spacing:-.8px; margin:10px 0 0; }
+.contact-directory { display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:40px; align-items:start; }
+.contact-directory .institution-lead { max-width:690px; }
+.contact-detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:19px; margin-top:28px; }
+.contact-detail-card { display:flex; align-items:flex-start; gap:17px; padding:25px; border:1px solid #bfd2df; background:#eff4f7; border-radius:18px; box-shadow:0 8px 24px #183e5908; min-width:0; }
+.contact-detail-card>div { min-width:0; flex:1; }.contact-detail-card h3 { font:750 19px/1.3 var(--font-display); margin:7px 0 12px; letter-spacing:-.5px; }
+.contact-detail-card small { font-size:11px; letter-spacing:1px; color:#527990; font-weight:700; }
+.contact-card-icon { display:grid; place-items:center; height:40px; width:40px; flex-shrink:0; background:#d8e9f2; color:#0b65a1; border:1px solid #bfd9e6; border-radius:12px; }
+.contact-card-icon .vi-icon { width:20px; height:20px; }
+.contact-detail-card p { font-size:15px; color:#47687f; margin:8px 0; overflow-wrap:anywhere; }.contact-detail-card a { overflow-wrap:anywhere; color:#0b65a1; }
+.contact-detail-card .contact-note { font-size:13px; color:#5b778a; }.contact-detail-card .contact-pending { font-weight:650; color:#577282; }
+.contact-address { grid-column:1/-1; background:#d4e9eb; border-color:#acd0d2; }.contact-address .contact-card-icon { background:#c0e3df; color:#0d7e76; border-color:#9bc8c3; }
+.contact-copy { display:inline-flex; align-items:center; gap:8px; background:transparent; border:0; color:#176d91; padding:8px 0; cursor:pointer; font-size:14px; font-weight:600; }.contact-copy .vi-icon { width:16px; height:16px; }.contact-copy:hover { color:#008579; }
+.copy-status { display:block; font-size:13px; color:#26777c; }
+.example-label { display:inline-block; border-radius:5px; padding:4px 8px; background:#dce6ee; color:#446b83; font-size:12px; }
+.contact-visit-panel { overflow:hidden; border:1px solid #b8cddc; border-radius:22px 22px 22px 7px; background:#eaf2f6; position:sticky; top:115px; box-shadow:0 16px 36px #082f550c; }
+.contact-visit-photo { position:relative; height:200px; background:#a1bdcc; }.contact-visit-photo img { width:100%; height:100%; object-fit:cover; filter:saturate(.7); }.contact-visit-photo>span { position:absolute; right:12px; bottom:12px; background:#082f55d9; border-radius:5px; padding:5px 8px; color:#e0ecf3; font-size:11px; }
+.contact-visit-content { padding:27px; }.contact-visit-content h2 { font:750 30px/1.2 var(--font-display); letter-spacing:-.8px; margin:15px 0; }.contact-visit-content p { color:#46687d; font-size:15px; }.contact-visit-content .button { font-size:13px; padding-inline:12px; gap:8px; }
+.contact-reception { display:flex; align-items:center; gap:15px; padding:24px 0; margin:22px 0; border-block:1px solid #c6d9e4; color:#54788e; font-size:13px; }.contact-reception strong { display:block; color:var(--navy); font-size:15px; margin-top:4px; }.contact-reception .vi-icon { color:#209c9b; }.contact-visit-content .text-link { font-size:14px; }
+@media(max-width:1100px) { .institution-story,.clinic-showcase { gap:35px; }.contact-directory { grid-template-columns:minmax(0,1fr) 320px; gap:25px; }.contact-detail-grid { grid-template-columns:1fr; }.contact-address { grid-column:auto; }.center-grid { gap:35px; }.home-clinic-model .model-scene { scale:.85; } }
+@media(max-width:820px) { .institution-story,.clinic-showcase,.contact-directory,.center-grid { grid-template-columns:1fr; }.institution-photo { height:380px; }.institution-purpose { margin-top:35px; }.institution-purpose article { padding:25px; }.institution-values-grid { gap:15px; }.institution-values-grid article { padding:23px; }.contact-visit-panel { position:static; }.contact-detail-grid { grid-template-columns:1fr 1fr; }.contact-address { grid-column:1/-1; }.home-clinic-model .model-scene { scale:1; } }
+@media(max-width:560px) {
+ .institution-hero { padding:52px 0 65px; }.institution-hero h1 { font-size:38px; letter-spacing:-1.3px; }.institution-hero p { font-size:16px; }.institution-location { font-size:14px; }
+ .institution-example { font-size:13px; margin-bottom:35px; padding:16px; }.institution-story,.clinic-showcase { gap:30px; }.institution-story h2,.clinic-showcase h2,.contact-directory>div>h2 { font-size:32px; }.institution-story .institution-lead,.institution-lead { font-size:17px; }
+ .institution-photo { height:340px; border-width:6px; }.institution-photo>div { left:14px; right:14px; bottom:14px; padding:16px; }.institution-photo strong { font-size:19px; }
+ .institution-purpose,.institution-values-grid,.contact-detail-grid { grid-template-columns:1fr; }.institution-purpose { gap:17px; }.institution-purpose h2 { font-size:23px; }.institution-values .section-heading h2 { font-size:31px; }.institution-values-grid h3 { font-size:22px; }
+ .contact-address { grid-column:auto; }.contact-detail-card { padding:22px; gap:14px; }.contact-visit-content { padding:24px; }
+ .institution-banner .container { flex-direction:column; align-items:flex-start; }.institution-banner h2 { font-size:29px; }.home-clinic-model .model-scene { scale:.73; }.home-clinic-model .model-stage { height:295px; }
+}

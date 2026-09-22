@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Especialidad;
 use App\Models\Horario;
+use App\Models\IndisponibilidadMedico;
 use App\Models\Medico;
 use App\Models\Paciente;
 use App\Models\User;
+use App\Services\IndisponibilidadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +17,7 @@ use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
 {
-    private const MODELS = ['pacientes' => Paciente::class, 'medicos' => Medico::class, 'especialidades' => Especialidad::class, 'horarios' => Horario::class];
+    private const MODELS = ['pacientes' => Paciente::class, 'medicos' => Medico::class, 'especialidades' => Especialidad::class, 'horarios' => Horario::class, 'indisponibilidades' => IndisponibilidadMedico::class];
 
     public function index(Request $request, string $resource)
     {
@@ -27,19 +29,23 @@ class AdminController extends Controller
         if ($resource === 'medicos') {
             $query->with('especialidades');
         }
-        if ($resource === 'horarios') {
+        if (in_array($resource, ['horarios', 'indisponibilidades'])) {
             $query->with('medico');
+            $request->validate(['medico_id' => 'nullable|integer|exists:medicos,id']);
+            if ($request->filled('medico_id')) {
+                $query->where('medico_id', $request->medico_id);
+            }
         }
         if ($request->filled('q')) {
             $term = mb_substr($request->string('q')->toString(), 0, 100);
             if ($resource === 'especialidades') {
                 $query->where('nombre', 'like', '%'.$term.'%');
-            } elseif ($resource !== 'horarios') {
+            } elseif (! in_array($resource, ['horarios', 'indisponibilidades'])) {
                 $query->where(fn ($q) => $q->where('nombres', 'like', '%'.$term.'%')->orWhere('apellidos', 'like', '%'.$term.'%')->orWhere('ci', 'like', '%'.$term.'%'));
             }
         }
 
-        return view('admin.index', ['resource' => $resource, 'items' => $query->latest('id')->paginate(15)->withQueryString()]);
+        return view('admin.index', ['resource' => $resource, 'items' => $query->latest('id')->paginate(15)->withQueryString(), 'medicos' => Medico::orderBy('apellidos')->get()]);
     }
 
     public function edit(string $resource, ?int $id = null)
@@ -47,7 +53,7 @@ class AdminController extends Controller
         $model = self::MODELS[$resource];
         abort_if($resource === 'pacientes' && ! $id, 404);
 
-        return view('admin.form', ['resource' => $resource, 'item' => $id ? $model::findOrFail($id) : new $model, 'especialidades' => Especialidad::where('estado', true)->orderBy('nombre')->get(), 'medicos' => Medico::where('estado', true)->orderBy('apellidos')->get()]);
+        return view('admin.form', ['resource' => $resource, 'item' => $id ? $model::findOrFail($id) : new $model, 'especialidades' => Especialidad::where('estado', true)->orderBy('nombre')->get(), 'medicos' => Medico::where('estado', true)->whereHas('usuario', fn ($q) => $q->where('estado', true))->orderBy('apellidos')->get()]);
     }
 
     public function save(Request $request, string $resource, ?int $id = null)
@@ -58,10 +64,16 @@ class AdminController extends Controller
         if ($resource === 'especialidades') {
             $data = $request->validate(['nombre' => ['required', 'string', 'max:100', Rule::unique('especialidades')->ignore($id)], 'descripcion' => 'nullable|string|max:2000', 'estado' => 'required|boolean']);
             $item->fill($data)->save();
+        } elseif ($resource === 'indisponibilidades') {
+            $data = $request->validate(['medico_id' => 'required|integer|exists:medicos,id', 'inicio' => 'required|date_format:Y-m-d\TH:i', 'fin' => 'required|date_format:Y-m-d\TH:i|after:inicio', 'motivo' => 'nullable|string|max:255', 'estado' => 'required|boolean']);
+            app(IndisponibilidadService::class)->save($data, $item->exists ? $item : null);
         } elseif ($resource === 'horarios') {
-            $data = $request->validate(['medico_id' => 'required|integer|exists:medicos,id', 'dia_semana' => 'required|integer|between:1,7', 'hora_inicio' => 'required|date_format:H:i', 'hora_fin' => 'required|date_format:H:i|after:hora_inicio', 'duracion_cita' => 'required|integer|between:5,240', 'estado' => 'required|boolean']);
+            $data = $request->validate(['medico_id' => 'required|integer|exists:medicos,id', 'dia_semana' => ['required', Rule::in(array_values(Horario::DIAS))], 'hora_inicio' => 'required|date_format:H:i', 'hora_fin' => 'required|date_format:H:i|after:hora_inicio', 'duracion_cita' => 'required|integer|between:5,240', 'estado' => 'required|boolean']);
             DB::transaction(function () use ($item, $data, $id) {
                 $medico = Medico::lockForUpdate()->findOrFail($data['medico_id']);
+                if (! $medico->estado || ! $medico->usuario?->estado) {
+                    throw ValidationException::withMessages(['medico_id' => 'Selecciona un médico activo.']);
+                }
                 if ($id && $item->medico_id != $medico->id) {
                     throw ValidationException::withMessages(['medico_id' => 'Crea otro bloque para cambiar de médico.']);
                 }
@@ -76,7 +88,8 @@ class AdminController extends Controller
                 $item->fill($data)->save();
             }, 3);
         } else {
-            $data = $request->validate(['nombres' => 'required|string|max:100', 'apellidos' => 'required|string|max:120', 'ci' => ['required', 'string', 'max:20', Rule::unique($resource, 'ci')->ignore($id)], 'telefono' => 'nullable|string|max:20', 'fecha_nacimiento' => 'nullable|date|before_or_equal:today', 'email' => ['required', 'email', 'max:150', Rule::unique('users', 'email')->ignore($item->usuario_id)], 'password' => [$id ? 'nullable' : 'required', 'string', 'min:8', 'confirmed'], 'estado' => 'required|boolean', ...($resource === 'medicos' ? ['especialidades' => 'required|array|min:1', 'especialidades.*' => ['integer', 'distinct', Rule::exists('especialidades', 'id')->where('estado', true)]] : [])]);
+            $data = $request->validate(['nombres' => 'required|string|max:100', 'apellidos' => 'required|string|max:120', 'ci' => ['required', 'string', 'max:20', Rule::unique($resource, 'ci')->ignore($id)], 'telefono' => 'nullable|string|max:20', 'fecha_nacimiento' => 'nullable|date|before_or_equal:today', 'email' => ['required', 'email', 'max:150', Rule::unique('usuarios', 'correo')->ignore($item->usuario_id)], 'password' => [$id ? 'nullable' : 'required', 'string', 'min:8', 'confirmed'], 'estado' => 'required|boolean', ...($resource === 'medicos' ? ['especialidades' => 'required|array|min:1', 'especialidades.*' => ['integer', 'distinct', Rule::exists('especialidades', 'id')->where('estado', true)]] : [])]);
+            validator(['nombre' => $data['nombres'].' '.$data['apellidos']], ['nombre' => 'max:120'])->validate();
             DB::transaction(function () use ($item, $data, $resource, $id) {
                 if ($id) {
                     $item = $item->newQuery()->lockForUpdate()->findOrFail($id);

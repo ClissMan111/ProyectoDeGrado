@@ -1,9 +1,8 @@
 @extends('layouts.dashboard')
-@section('title','Mi panel')
+@section('title',match(auth()->user()->rol){'administrador'=>'Panel administrativo','medico'=>'Mi jornada',default=>'Mi espacio'})
 @section('content')
-<div class="dashboard-heading"><div><span class="section-tag">{{ now()->locale('es')->isoFormat('dddd D [de] MMMM') }}</span><h1>Hola, {{ explode(' ',auth()->user()->name)[0] }}.</h1><p>{{ auth()->user()->rol==='paciente'?'Hagamos espacio para tu bienestar.':'Una mirada a la atención de hoy.' }}</p></div>@if(auth()->user()->rol!=='medico')<a class="button button-dark" href="{{ route('booking') }}">＋ Reservar cita</a>@endif</div>
-<div class="welcome-banner"><div><span class="section-tag light">VILLA ISRAEL · TU CENTRO DE SALUD</span><h2>{{ auth()->user()->rol==='paciente'?'Tu próxima atención empieza aquí.':'Cada cita, una persona a quien cuidar.' }}</h2><p>{{ auth()->user()->rol==='paciente'?'Consulta tus reservas y encuentra el horario que mejor se adapte a ti.':'Organiza la jornada y acompaña cada atención desde su reserva hasta el cierre.' }}</p><a href="{{ route('citas.index') }}" class="text-link">{{ auth()->user()->rol==='medico'?'Abrir mi agenda':'Consultar citas' }} <span>→</span></a></div><div class="care-art" aria-hidden="true">＋</div></div>
-<div class="metric-row admin-metrics">@foreach(['pendiente'=>'Pendientes hoy','confirmada'=>'Confirmadas hoy','atendida'=>'Atendidas hoy','cancelada'=>'Canceladas hoy'] as $state=>$label)<article><span class="metric-icon">{{ ['pendiente'=>'◷','confirmada'=>'✓','atendida'=>'✚','cancelada'=>'×'][$state] }}</span><div><small>{{ $label }}</small><strong>{{ $metrics[$state] }}</strong></div></article>@endforeach</div>
-<section class="surface"><div class="surface-heading"><div><span class="section-tag">EN TU AGENDA</span><h2>Próximas citas</h2></div><a href="{{ route('citas.index') }}">Ver todas →</a></div>
-<div class="appointment-grid">@forelse($next as $cita)<a class="appointment-tile" href="{{ route('citas.show',$cita) }}"><div class="date-tile"><strong>{{ $cita->fecha->format('d') }}</strong><span>{{ $cita->fecha->locale('es')->isoFormat('MMM') }}</span></div><div><span class="status-badge {{ $cita->estado }}">{{ \App\Models\Cita::ESTADOS[$cita->estado] }}</span><h3>{{ $cita->especialidad->nombre }}</h3><p>{{ auth()->user()->rol==='paciente'?$cita->medico->nombre_completo:$cita->paciente->nombre_completo }}</p><small>{{ substr($cita->hora_inicio,0,5) }} — {{ substr($cita->hora_fin,0,5) }}</small></div><span class="tile-arrow">↗</span></a>@empty<div class="empty-state"><span>◷</span><h3>Tu agenda está despejada</h3><p>Las próximas citas aparecerán aquí.</p></div>@endforelse</div></section>
+@php($panel=match(auth()->user()->rol){'administrador'=>'admin','medico'=>'doctor',default=>'patient'})
+<div class="vi-dashboard vi-dashboard-{{ $panel }}">
+@include('dashboards.'.$panel)
+</div>
 @endsection
